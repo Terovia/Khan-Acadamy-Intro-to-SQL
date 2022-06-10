@@ -1,0 +1,61 @@
+Project: Data Dig by Khan Academy's Intro to SQL Mini-Project
+Webiste: https://www.khanacademy.org/computing/computer-programming/sql/more-advanced-sql-queries/pp/project-data-dig
+
+
+Using Top movies dataset
+The following SQL queries were used:
+
+
+/* Aggregate data (Max, Min) */
+SELECT Title, MAX(Worldwide) AS top_worldwide
+FROM topmovies;
+
+SELECT Title, MIN(Worldwide) AS worst_worldwide
+FROM topmovies; 
+
+SELECT Title, MIN(Overseas) AS worst_overseas
+FROM topmovies;
+
+/* Show top 10 results for domestic sales */
+SELECT Title, Domestic
+FROM topmovies
+ORDER BY Domestic DESC
+LIMIT 10;
+
+/* Show Sony movies overseas */
+SELECT title, Overseas
+FROM topmovies
+WHERE Studio = 'Sony';
+
+/* List of Studios */
+SELECT DISTINCT(Studio)
+FROM topmovies;
+
+/* Count how many movies each studio released */
+SELECT Studio, COUNT(Title)
+FROM topmovies
+GROUP BY Studio
+ORDER BY COUNT(Title) DESC;
+
+/* Count how many movies each studio released before year 2000 */
+SELECT Studio, COUNT(Title)
+FROM topmovies
+WHERE Year < '2000'
+GROUP BY Studio
+ORDER BY COUNT(Title) DESC;
+
+/* Check profitability of studio */
+SELECT Studio, ROUND(SUM(Domestic)) AS total_domestic,  ROUND(SUM(Worldwide)) AS total_worldwide, ROUND(SUM(Overseas)) AS total_overseas
+FROM topmovies
+GROUP BY Studio
+ORDER BY total_domestic DESC;
+
+
+/* Count how many movies each studio released in after year 2000 and before 2000 */
+SELECT Title, Year,
+    CASE
+        WHEN Year < '2000' THEN 'Before 2000'
+        ELSE 'After 2000'
+    END AS Year_released
+FROM topmovies
+ORDER BY Year_released;
